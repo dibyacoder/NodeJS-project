@@ -1,8 +1,8 @@
 //This file will be helpful for establishing connection between our nodeJs application and our MongoDB database using the mongoose library.
 const mongoose = require('mongoose')
-
+require('dotenv').config();
 //Defining the mongoDB connection URL
-const mongoURL='mongodb+srv://dibyaranja1029:6QuMctK9ncWDPBZu@learndb.pte8ulp.mongodb.net/?retryWrites=true&w=majority&appName=learnDB'
+const mongoURL=process.env.DB_URL;
 
 //Set up MongoDB connection
 mongoose.connect(mongoURL,{
