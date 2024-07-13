@@ -102,12 +102,28 @@ const app=express();
 const db=require('./db.js');
 require('dotenv').config();
 console.log(db);
+
 const bodyParser=require('body-parser');
 app.use(bodyParser.json()); //Pick the data coming from the frontend and stores it in the request body.We dont have to care about in which format we are getting datas from the frontend , it may be raw data or json data or form data.
+
 const PORT=process.env.PORT || 3000;
+const passport=require('./auth.js');
+
+
+
+
+//Middleware Functions-----
+const logRequest = (req, res, next) =>{
+    console.log(`[${new Date().toLocaleString()}] Request Made to: ${req.originalUrl}`);
+    next(); // Move to the next phase
+}
+app.use(logRequest);
+
+app.use(passport.initialize());
+const localAuthMiddleware=passport.authenticate('local',{session:false})
 
 //2 basic apis written under here.
-app.get('/',function(req,res){
+app.get('/',localAuthMiddleware,function(req,res){
     res.send("Welcome to our Hotel")
 })
 
@@ -125,7 +141,7 @@ const personRoutes=require('./Routes/personRoutes.js')
 const menuRoutes=require('./Routes/menuRoutes.js')
 //Use the routers
 app.use('/',personRoutes);
-app.use('/', menuRoutes);
+app.use('/',localAuthMiddleware, menuRoutes);
 
 
  
