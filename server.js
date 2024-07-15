@@ -109,9 +109,6 @@ app.use(bodyParser.json()); //Pick the data coming from the frontend and stores 
 const PORT=process.env.PORT || 3000;
 const passport=require('./auth.js');
 
-
-
-
 //Middleware Functions-----
 const logRequest = (req, res, next) =>{
     console.log(`[${new Date().toLocaleString()}] Request Made to: ${req.originalUrl}`);
@@ -141,10 +138,10 @@ const personRoutes=require('./Routes/personRoutes.js')
 const menuRoutes=require('./Routes/menuRoutes.js')
 //Use the routers
 app.use('/',personRoutes);
-app.use('/',localAuthMiddleware, menuRoutes);
+app.use('/',localAuthMiddleware, menuRoutes); 
 
 
  
 app.listen(PORT,function(){
-    console.log("server running on 3000")
+    console.log(`server running on http://localhost:${PORT}`)
 })
